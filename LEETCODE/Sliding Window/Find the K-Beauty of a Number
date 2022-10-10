@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int divisorSubstrings(int num, int k) {
+        string s=to_string(num);
+        int count=0;
+        int j=k-1;
+        int i=0;
+        while(j<s.size())
+        {
+            string a=s.substr(i,(j+1)-i);
+            int b=stoi(a);
+            if(b==0)
+            {
+                i++;
+                j++;
+                continue;
+            }
+            else
+            {
+                if(num%b==0)
+                {
+                    count++;
+                }
+                j++;
+                i++;
+            }
+        }
+        return count;
+    }
+};
