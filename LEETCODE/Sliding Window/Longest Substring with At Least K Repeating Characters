@@ -1,0 +1,77 @@
+class Solution {
+public:
+    int longestSubstring(string s, int k) {
+        map<char,int>m1;
+        for(int i=0;i<s.size();i++)
+        {
+            m1[s[i]]++;
+        }
+        set<char>st;
+        for(auto it = m1.begin();it != m1.end();it++)
+        {
+            if(it->second < k)
+            {
+                st.insert(it->first);
+            }
+        }
+        int val=INT_MIN;
+        int count=0;
+        map<char,int>m3;
+        for(int i=0;i<s.size();i++)
+        {
+            if(st.find(s[i]) != st.end())
+            {
+                int a=0;
+                for(auto it =m3.begin();it!= m3.end();it++)
+                {
+                    if(it->second>=k)
+                    {
+                        a++;
+                    }
+                }
+                if(a==m3.size())
+                {
+                    val=max(val,count);
+                }
+                else
+                {
+                    int v=longestSubstring(s.substr((i-count),count),k);
+                    val=max(val,v);
+                }
+                count=0;
+                map<char,int>m2;
+                m3=m2;
+            }
+            else
+            {
+                count++;
+                m3[s[i]]++;
+                if(i==s.size()-1)
+                {
+                    int a=0;
+                    for(auto it =m3.begin();it!= m3.end();it++)
+                    {
+                        if(it->second>=k)
+                        {
+                            a++;
+                        }
+                    }
+                    if(a==m3.size())
+                    {
+                        val=max(val,count);
+                    }
+                    else
+                    {
+                        int g=longestSubstring(s.substr((i-count+1),count),k);
+                        val=max(val,g);
+                    }
+                }
+            }
+        }
+        if(val==INT_MIN)
+        {
+            return 0;
+        }
+        return val;
+    }
+};
