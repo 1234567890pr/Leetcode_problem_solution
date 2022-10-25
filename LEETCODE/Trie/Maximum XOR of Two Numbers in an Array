@@ -1,0 +1,53 @@
+class TrieNode{
+    public:
+        TrieNode * next[2];
+        TrieNode()
+        {
+            next[0]=NULL;
+            next[1]=NULL;
+        }
+    
+};
+class Solution {
+public:
+    int findMaximumXOR(vector<int>& nums) {
+        int n=nums.size();
+        TrieNode * root=new TrieNode();
+        for(int i=0;i<n;i++)
+        {
+            TrieNode * temp=root;
+            int a=nums[i];
+            for(int j=31;j>=0;j--)
+            {
+                int bit=a>>j & 1;
+                if(temp->next[bit]==NULL)
+                {
+                    temp->next[bit]=new TrieNode();
+                }
+                temp=temp->next[bit];
+            }
+        }
+        int res=0;
+        for(int i=0;i<n;i++)
+        {
+            int val=0;
+            TrieNode * temp2=root;
+            int b=nums[i];
+            for(int j=31;j>=0;j--)
+            {
+                int bit=(b>>j&1?0:1);
+                if( temp2->next[bit] != NULL)
+                {
+                    val = val + (1<<j);
+                    temp2=temp2->next[bit];
+                }
+                else
+                {
+                    temp2=temp2->next[1-bit];
+                }
+            }
+            res=max(res,val);
+        }
+        return res;        
+    }
+};
