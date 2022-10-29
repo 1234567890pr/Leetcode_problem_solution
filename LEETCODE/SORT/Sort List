@@ -1,0 +1,78 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode * merg(ListNode * h1,ListNode * h2)
+    {
+        ListNode * temp=new ListNode(0);
+        ListNode * temp1=temp;
+        while(h1 != NULL && h2 != NULL)
+        {
+            if(h1->val<h2->val)
+            {
+                temp->next=h1;
+                h1=h1->next;
+                temp=temp->next;
+            }
+            else
+            {
+                temp->next=h2;
+                h2=h2->next;
+                temp=temp->next;
+            }
+        }
+        while(h1 != NULL)
+        {
+            temp->next=h1;
+            h1=h1->next;
+            temp=temp->next;
+        }
+        while(h2 != NULL)
+        {
+            temp->next=h2;
+            h2=h2->next;
+            temp=temp->next;
+        }
+        return temp1->next;
+    }
+    void mergsort(ListNode **head)
+    {
+        ListNode * first=*head;
+        ListNode * second=NULL;
+        ListNode * temp=*head;
+        if(first==NULL || first->next==NULL)
+        {
+            return ;
+        }
+        else
+        {
+            while(first->next != NULL)
+            {
+                first=first->next;
+                if(first->next != NULL)
+                {
+                    temp=temp->next;
+                    first=first->next;
+                }
+            }
+            second=temp->next;
+            temp->next=NULL;
+            first=*head;
+        }
+        mergsort(&first);
+        mergsort(&second);
+        *head=merg(first,second);
+    }
+    ListNode* sortList(ListNode* head) {
+        mergsort(&head);
+        return head;
+    }
+};
