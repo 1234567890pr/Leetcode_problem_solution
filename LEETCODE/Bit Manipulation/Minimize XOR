@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minimizeXor(int num1, int num2) {
+        //count total set bit of num2
+        int count=0;
+        for(int i=31;i>=0;i--)
+        {
+            if(num2>>i&1)
+            {
+                count++;
+            }
+        }
+        int val=0;
+        for(int i=31;i>=0;i--)
+        {
+            if(i==count-1)
+            {
+                val += (1<<i);
+                count--;
+            }
+            else
+            {
+                if(num1>>i&1 &&(count != 0))
+                {
+                    val += (1<<i);
+                    count--;
+                }
+            }
+        }
+        return val;
+    }
+};
