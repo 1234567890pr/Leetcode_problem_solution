@@ -1,0 +1,35 @@
+//Medium 
+// URL : https://leetcode.com/problems/redundant-connection/
+
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n=edges.size();
+        vector<int>v2;
+        vector<int>v1(n+1,-1);
+        for(int i=0;i<edges.size();i++)
+        {
+            int a=edges[i][0];
+            int b=edges[i][1];
+            while(v1[a] != -1)
+            {
+                a=v1[a];
+            }
+            while(v1[b] != -1)
+            {
+                b=v1[b];
+            }
+            if(a==b)
+            {
+                v2.push_back(edges[i][0]);
+                v2.push_back(edges[i][1]);
+                break;
+            }
+            else
+            {
+                v1[a]=edges[i][1];
+            }
+        }
+        return v2;
+    }
+};
