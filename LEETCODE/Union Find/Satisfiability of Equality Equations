@@ -1,0 +1,98 @@
+//Medium
+//url:https://leetcode.com/problems/satisfiability-of-equality-equations/
+class Solution {
+public:
+    bool equationsPossible(vector<string>& equations) {
+        vector<int>v1(26,-2);
+        vector<string>v2;
+        vector<string>v3;
+        for(int i=0;i<equations.size();i++)
+        {
+            if(equations[i][1]=='=')
+            {
+                v2.push_back(equations[i]);
+            }
+            else
+            {
+                v3.push_back(equations[i]);
+            }
+        }
+        for(int i=0;i<v2.size();i++)
+        {
+            int a=v2[i][0]-'0';
+            a=a-49;
+            int b=v2[i][3]-'0';
+            b=b-49;
+            if(a==b)
+            {
+                continue;
+            }
+            if(v1[a]==-2 || v1[b]==-2)
+            {
+                if(v1[a]==-2 && v1[b]==-2)
+                {
+                    v1[a]=b;
+                    v1[b]=-1;
+                }
+                else if(v1[a]==-2)
+                {
+                    while(v1[b] != -1)
+                    {
+                        b=v1[b];
+                    }
+                    v1[a]=b;
+                }
+                else
+                {
+                    while(v1[a]!= -1)
+                    {
+                        a=v1[a];
+                    }
+                    v1[b]=a;
+                }
+            }
+            else
+            {
+                while(v1[a]!=-1)
+                {
+                    a=v1[a];
+                }
+                while(v1[b]!=-1)
+                {
+                    b=v1[b];
+                }
+                if(a!=b)
+                {
+                    v1[a]=b;
+                }
+            }
+        }
+        for(int i=0;i<v3.size();i++)
+        {
+            int a=v3[i][0]-'0';
+            a=a-49;
+            int b=v3[i][3]-'0';
+            b=b-49;
+            if(a==b)
+            {
+                return false;
+            }
+            if(v1[a]!=-2 && v1[b]!=-2)
+            {
+                while(v1[a] != -1)
+                {
+                    a=v1[a];
+                }
+                while(v1[b]!=-1)
+                {
+                    b=v1[b];
+                }
+                if(a==b)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
