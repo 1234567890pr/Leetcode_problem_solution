@@ -1,0 +1,53 @@
+//url: https://leetcode.com/problems/possible-bipartition/
+class Solution {
+public:
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        vector<vector<int>>v1(n+1);
+        for(int i=0;i<dislikes.size();i++)
+        {
+            v1[dislikes[i][0]].push_back(dislikes[i][1]);
+            v1[dislikes[i][1]].push_back(dislikes[i][0]);
+        }
+        vector<int>v2(n+1,-1);
+        for(int i=0;i<v2.size();i++)
+        {
+            if(i==0)
+            {
+                continue;
+            }
+            else if(v2[i]==-1)
+            {
+                if(!f1(v1,v2,i))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    bool f1(vector<vector<int>>&v1,vector<int>&v2,int i)
+    {
+        queue<int>q1;
+        q1.push(i);
+        v2[i]=1;
+        while(!q1.empty())
+        {
+            int a=q1.front();
+            q1.pop();
+            for(auto val : v1[a])
+            {
+                if(v2[val]==v2[a])
+                {
+                    return false;
+                }
+                if(v2[val]!=-1)
+                {
+                    continue;
+                }
+                q1.push(val);
+                v2[val]=1-v2[a];
+            }
+        }
+        return true;
+    }
+};
