@@ -1,0 +1,65 @@
+//url:https://leetcode.com/problems/array-of-doubled-pairs/
+class Solution {
+public:
+    bool canReorderDoubled(vector<int>& arr) {
+        map<int,int>m1;
+        for(int i=0;i<arr.size();i++)
+        {
+            m1[arr[i]]++;
+        }
+        while(m1.size() !=0)
+        {
+            auto it=m1.begin();
+            if(it->first==0)
+            {
+                if(it->second %2!=0)
+                {
+                    return false;
+                }
+                m1.erase(it->first);
+            }
+            else
+            {
+                if(m1.find(2*it->first) != m1.end())
+                {
+                    int a=it->second;
+                    int b=m1[2*it->first];
+                    int c=min(a,b);
+                    m1[it->first]=m1[it->first]-c;
+                    m1[2*it->first]=m1[2* it->first]-c;
+                    if(m1[2*it->first]==0)
+                    {
+                        auto it1=m1.find(2*it->first);
+                        m1.erase(it1->first);
+                    }
+                    if(m1[it->first]==0)
+                    {
+                        m1.erase(it->first);
+                    }
+                }
+                else if(m1.find(it->first/2) !=m1.end()&&it->first%2==0)
+                {
+                    int a=it->second;
+                    int b=m1[it->first/2];
+                    int c=min(a,b);
+                    m1[it->first]=m1[it->first]-c;
+                    m1[it->first/2]=m1[it->first/2]-c;
+                    if(m1[it->first/2]==0)
+                    {
+                        auto it1=m1.find(it->first/2);
+                        m1.erase(it1->first);
+                    }
+                    if(m1[it->first]==0)
+                    {
+                        m1.erase(it->first);
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
