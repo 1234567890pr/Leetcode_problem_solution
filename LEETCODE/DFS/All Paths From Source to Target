@@ -1,0 +1,26 @@
+//url:https://leetcode.com/problems/all-paths-from-source-to-target/
+class Solution {
+public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<vector<int>>v1;
+        vector<int>v2;
+        v2.push_back(0);
+        for(auto it : graph[0])
+        {
+            f1(graph,v1,v2,it);
+        }
+        return v1;
+    }
+    void f1(vector<vector<int>>& graph,vector<vector<int>>&v1,vector<int>v2,int val)
+    {
+        v2.push_back(val);
+        if(val==graph.size()-1)
+        {
+            v1.push_back(v2);
+        }
+        for(auto it1 : graph[val])
+        {
+            f1(graph,v1,v2,it1);
+        }
+    }
+};
