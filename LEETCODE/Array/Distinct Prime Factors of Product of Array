@@ -1,0 +1,37 @@
+//url:https://leetcode.com/problems/distinct-prime-factors-of-product-of-array/
+class Solution {
+public:
+    int distinctPrimeFactors(vector<int>& nums) {
+        set<int>st;
+        vector<int>v1(1001,1);
+        v1[0]=v1[1]=0;
+        vector<int>v2(1001,0);
+        for(int i=2;i<1001;i++)
+        {
+            if(v1[i]==1)
+            {
+                v2[i]=i;
+                for(int j=2*i;j<1001;j+=i)
+                {
+                    v1[j]=0;
+                    v2[j]=i;
+                }
+            }
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            int a=nums[i];
+            while(a>1)
+            {
+                int b=v2[a];
+                while(a%b==0)
+                {
+                    a=a/b;
+                    st.insert(b);
+                }
+            }
+            
+        }
+        return st.size();
+    }
+};
