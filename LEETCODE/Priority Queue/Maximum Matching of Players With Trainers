@@ -1,0 +1,31 @@
+//url :https://leetcode.com/problems/maximum-matching-of-players-with-trainers/
+class Solution {
+public:
+    int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
+        priority_queue<int>q1;
+        priority_queue<int>q2;
+        for(int i=0;i<players.size();i++)
+        {
+            q1.push(players[i]);
+        }
+        for(int i=0;i<trainers.size();i++)
+        {
+            q2.push(trainers[i]);
+        }
+        int count=0;
+        while(!q1.empty()&&!q2.empty())
+        {
+            if(q1.top()<=q2.top())
+            {
+                count++;
+                q1.pop();
+                q2.pop();
+            }
+            else
+            {
+                q1.pop();
+            }
+        }
+        return count;
+    }
+};
