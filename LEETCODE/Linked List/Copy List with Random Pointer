@@ -1,0 +1,72 @@
+//url: https://leetcode.com/problems/copy-list-with-random-pointer/
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        vector<Node*>v1;
+        if(head==NULL)
+        {
+            Node * g=NULL;
+            v1.push_back(g);
+            return v1[0];
+        }
+        Node * temp=head;
+        map<Node*,int>m1;
+        int i=0;
+        while(temp!= NULL)
+        {
+            Node * a=new Node(temp->val);
+            v1.push_back(a);
+            m1[temp]=i;
+            i++;
+            temp=temp->next;
+        }
+        int j=0;
+        while(head!=NULL)
+        {
+            if(j==v1.size()-1)
+            {
+                v1[j]->next=NULL;
+                if(head->random==NULL)
+                {
+                    v1[j]->random=NULL;
+                }
+                else
+                {
+                    v1[j]->random=v1[m1[head->random]];
+                }
+            }
+            else
+            {
+                v1[j]->next=v1[j+1];
+                if(head->random==NULL)
+                {
+                    v1[j]->random=NULL;
+                }
+                else
+                {
+                    v1[j]->random=v1[m1[head->random]];
+                }
+            }
+            j++;
+            head=head->next;
+        }
+        return v1[0];
+        
+    }
+};
