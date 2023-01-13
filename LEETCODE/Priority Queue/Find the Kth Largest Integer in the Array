@@ -1,0 +1,42 @@
+//url :https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/
+class Solution {
+public:
+    string kthLargestNumber(vector<string>& nums, int k) {
+        map<int,priority_queue<string>>m1;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(m1.find(nums[i].size()) != m1.end())
+            {
+                m1[nums[i].size()].push(nums[i]);
+            }
+            else
+            {
+                priority_queue<string>q1;
+                q1.push(nums[i]);
+                m1[nums[i].size()]=q1;
+            }
+        }
+        string s="";
+        for(auto it =m1.rbegin();it != m1.rend();it++)
+        {
+            if(k==0)
+            {
+                break;
+            }
+            if(it->second.size()<k)
+            {
+                k=k-it->second.size();
+            }
+            else
+            {
+                while(k!=0)
+                {
+                    s=it->second.top();
+                    it->second.pop();
+                    k--;
+                }
+            }
+        }
+        return s;
+    }
+};
