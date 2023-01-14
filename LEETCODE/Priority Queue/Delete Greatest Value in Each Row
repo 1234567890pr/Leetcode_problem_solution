@@ -1,0 +1,26 @@
+//url :https://leetcode.com/problems/delete-greatest-value-in-each-row/
+class Solution {
+public:
+    int deleteGreatestValue(vector<vector<int>>& grid) {
+        map<int,priority_queue<int>>m1;
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[i].size();j++)
+            {
+                m1[i].push(grid[i][j]);
+            }
+        }
+        int result=0;
+        while(m1[0].size()!=0)
+        {
+            int val=0;
+            for(auto it=m1.begin();it != m1.end();it++)
+            {
+                val=max(val,it->second.top());
+                it->second.pop();
+            }
+            result=result+val;
+        }
+        return result;
+    }
+};
