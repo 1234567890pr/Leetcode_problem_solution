@@ -1,0 +1,58 @@
+//url: https://leetcode.com/problems/palindrome-partitioning/
+
+class Solution {
+public:
+    bool check(string val)
+    {
+        if(val.size()==1)
+        {
+            return true;
+        }
+        int s=0;
+        int e=val.size()-1;
+        while(s<e)
+        {
+            if(val[s]!=val[e])
+            {
+                return false;
+            }
+            s++;
+            e--;
+        }
+        return true;
+    }
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>>v1;
+        string val="";
+        for(int i=0;i<s.size();i++)
+        {
+            val=val+s[i];
+            if(check(val))
+            {
+                vector<string>v2;
+                v2.push_back(val);
+                f1(v1,v2,i+1,s);
+            }
+        }
+        return v1;
+    }
+    void f1(vector<vector<string>>&v1,vector<string>v2,int i,string s)
+    {
+        if(i>=s.size())
+        {
+            v1.push_back(v2);
+            return ;
+        }
+        string s2="";
+        for(int y=i;y<s.size();y++)
+        {
+            s2=s2+s[y];
+            if(check(s2))
+            {
+                v2.push_back(s2);
+                f1(v1,v2,y+1,s);
+                v2.pop_back();
+            }
+        }
+    }
+};
