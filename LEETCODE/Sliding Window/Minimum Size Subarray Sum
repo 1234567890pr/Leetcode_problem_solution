@@ -65,3 +65,33 @@ public:
         return val;
     }
 };
+//NOW modify this in O(N) time complexity
+/*
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int result=INT_MAX;
+        int sum=0;
+        int l=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            sum+=nums[i];
+            if(sum>=target)
+            {
+                while(sum>= target)
+                {
+                    sum-=nums[l];
+                    l++;
+                }
+                int a=i-l +1 +1;
+                result=min(result,a);
+            }
+        }
+        if(result==INT_MAX)
+        {
+            return 0;
+        }
+        return result;
+    }
+};
+*/
