@@ -1,0 +1,56 @@
+// url :https://leetcode.com/problems/count-vowel-strings-in-ranges/
+class Solution {
+public:
+    vector<int> vowelStrings(vector<string>& words, vector<vector<int>>& queries) {
+        set<char>st;
+        st.insert('a');
+        st.insert('e');
+        st.insert('i');
+        st.insert('o');
+        st.insert('u');
+        vector<int>ans;
+        vector<int>v1;
+        for(int i=0;i<words.size();i++)
+        {
+            if(i==0)
+            {
+                if(st.find(words[i][0]) !=st.end() && st.find(words[i][words[i].size()-1]) !=st.end())
+                {
+                    v1.push_back(1);
+                }
+                else
+                {
+                    v1.push_back(0);
+                }
+            }
+            else
+            {
+                int a=v1[i-1];
+                if(st.find(words[i][0]) !=st.end() && st.find(words[i][words[i].size()-1]) !=st.end())
+                {
+                    a++;
+                    v1.push_back(a);
+                }
+                else
+                {
+                    v1.push_back(a);
+                }
+            }
+        }
+        for(int i=0;i<queries.size();i++)
+        {
+            
+            if(queries[i][0]==0)
+            {
+                ans.push_back(v1[queries[i][1]]);
+            }
+            else
+            {
+                int x=queries[i][0]-1;
+                int b=v1[queries[i][1]]-v1[x];
+                ans.push_back(b);
+            }
+        }
+        return ans;
+    }
+};
