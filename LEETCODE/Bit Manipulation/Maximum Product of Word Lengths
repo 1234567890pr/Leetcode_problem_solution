@@ -1,0 +1,38 @@
+//url :https://leetcode.com/problems/maximum-product-of-word-lengths/
+class Solution {
+public:
+    int maxProduct(vector<string>& words) {
+        int n=words.size();
+        vector<vector<bool>>v1(n,vector<bool>(26,false));
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<words[i].size();j++)
+            {
+                int a=words[i][j]-'0'-49;
+                v1[i][a]=true;
+            }
+        }
+        int result=0;
+        for(int i=0;i<v1.size();i++)
+        {
+            for(int j=i+1;j<n;j++)
+            {
+                int a=0;
+                for(int k=0;k<26;k++)
+                {
+                    if(v1[i][k]&v1[j][k])
+                    {
+                        a=1;
+                        break;
+                    }
+                }
+                if(a==0)
+                {
+                    int c=words[i].size() * words[j].size();
+                    result=max(result,c);
+                }
+            }
+        }
+        return result;
+    }
+};
