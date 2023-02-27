@@ -1,0 +1,103 @@
+//url:https://leetcode.com/problems/construct-quad-tree/
+/*
+// Definition for a QuadTree node.
+class Node {
+public:
+    bool val;
+    bool isLeaf;
+    Node* topLeft;
+    Node* topRight;
+    Node* bottomLeft;
+    Node* bottomRight;
+    
+    Node() {
+        val = false;
+        isLeaf = false;
+        topLeft = NULL;
+        topRight = NULL;
+        bottomLeft = NULL;
+        bottomRight = NULL;
+    }
+    
+    Node(bool _val, bool _isLeaf) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = NULL;
+        topRight = NULL;
+        bottomLeft = NULL;
+        bottomRight = NULL;
+    }
+    
+    Node(bool _val, bool _isLeaf, Node* _topLeft, Node* _topRight, Node* _bottomLeft, Node* _bottomRight) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = _topLeft;
+        topRight = _topRight;
+        bottomLeft = _bottomLeft;
+        bottomRight = _bottomRight;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* construct(vector<vector<int>>& grid) {
+        int i=0;
+        int j=0;
+        int n=grid.size()-1;
+        int m=grid[i].size()-1;
+        return f1(grid,i,j,n,m); 
+    }
+    Node * f1(vector<vector<int>>&grid,int i,int j,int n,int m)
+    {
+        bool check0=false;
+        bool check1=false;
+        for(int k=i;k<=n;k++)
+        {
+            int a=0;
+            for(int p=j;p<=m;p++)
+            {
+                if(grid[k][p]==0)
+                {
+                    check0=true;
+                }
+                else
+                {
+                    check1=true;
+                }
+                if(check0==true && check1==true)
+                {
+                    a=1;
+                    break;
+                }
+            }
+            if(a==1)
+            {
+                break;
+            }
+        }
+        if(check0==true && check1==true)
+        {
+            Node * temp1=new Node(1,0);
+            temp1->topLeft=f1(grid,i,j,(i+n)/2,(j+m)/2);
+            temp1->topRight=f1(grid,i,((j+m)/2)+1,(i+n)/2,m);
+            temp1->bottomLeft=f1(grid,((i+n)/2)+1,j,n,(j+m)/2);
+            temp1->bottomRight=f1(grid,((i+n)/2)+1,((j+m)/2)+1,n,m);
+            return temp1;
+        }
+        else
+        {
+            if(check0==true)
+            {
+                Node * temp1=new Node(0,1);
+                return temp1;
+            }
+            else
+            {
+                Node * temp1=new Node(1,1);
+                return temp1;
+            }
+        }
+        
+    }
+};
